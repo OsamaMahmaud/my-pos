@@ -78,7 +78,7 @@
                                             <a href="{{ route('dashboard.clients.orders.create',$client->id) }}" class="btn btn-info btn-sm" >@lang('site.add_order')</a>
 
                                            @else
-                                            <a href=#" class="btn btn-info btn-sm disabled" >@lang('site.add_order')</a>
+                                            <a href="#" class="btn btn-info btn-sm disabled" >@lang('site.add_order')</a>
 
                                            @endif
 

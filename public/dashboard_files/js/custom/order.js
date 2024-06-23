@@ -116,6 +116,8 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
+//// <td> <input type='hidden' name='product_ids[]' value='${id}'> </td>
+
 $(document).ready(function()
 {
 
@@ -129,8 +131,151 @@ $(document).ready(function()
                var name =$(this).data('name');
                var price =$(this).data('price');
 
-               
+               $(this).removeClass('btn-success').addClass('btn-default disabled');
+               var html=`
+                            <tr>
+
+                                    <td>${name}</td>
+
+                                    <td><input type='number' class="form-controal input-sm product-quantity" data-price=${price} min="1" value="1" name = products[${id}][quantity] ></td>
+
+                                    <td class="product-price">${price}</td>
+
+                                    <td><button class="btn btn-danger btn-sm remove-product-btn" data-id="${id}"><span class="fa fa-trash"></span></button></td>
+
+                            </tr>
+                        `;
+
+               $('.order-list').append(html);
+
+               calculateTotal();
+
+       });
+
+        //disabled btn
+    $('body').on('click', '.disabled', function(e) {
+
+        e.preventDefault();
+
+    });//end of disabled
+
+
+
+//remove product button
+       $('body').on('click','.remove-product-btn',function(e){
+        e.preventDefault();
+
+           $(this).closest('tr').remove();
+
+           var id = $(this).data('id');
+
+        //    alert(id);
+
+        //    $('#product-' + id).removeClass('btn-default disabled').addClass('btn-success');
+
+        $('#product-' + id).removeClass('btn-default disabled').addClass('btn-success');
+
+        calculateTotal();
+
+       });
+
+       //claculate total price
+
+       function calculateTotal()
+       {
+           var price=0;
+
+           $('.order-list .product-price').each(function(){
+
+               price+=parseFloat($(this).html().replace(/,/g, ''));
+
+
+            //    alert(price);
+           });//end of product price
+
+           $('.total-price').html($.number(price,2));
+          //check if price >0 or not
+           if(price > 0)
+            {
+                $('#add-order-form-btn').removeClass('disabled');
+
+
+            }
+            else
+            {
+                $('#add-order-form-btn').addClass('disabled');
+            }
+
+       }
+
+       $('body').on('change' ,'.product-quantity',function(){
+
+          var productQuantity =parseInt($(this).val());
+
+          var unitPrice= parseInt($(this).data('price'));
+
+          var subTotal = productQuantity * unitPrice;
+          var productTotal = $(this).closest('tr').find('.product-price').html(subTotal);
+
+          calculateTotal();
+
+
+        //  alert(productId );
+
+        //  alert(productQuantity);
+
+       });
+
+
+
+       ///
+
+       $('.order-products').on('click',function(e){
+
+        e.preventDefault();
+
+        $('#loading').css('display','flex');
+
+        // alert('hello');
+
+        var url =$(this).data('url');
+        var method =$(this).data('method');
+
+        $.ajax({
+
+             url : url,
+
+             method : method,
+
+             success: function(data)
+             {
+                // console.log(data);
+
+                $('#loading').css('display','none');
+
+                $('#order-product-list').empty();
+
+
+                $('#order-product-list').append(data);
+             }
+
+        });
 
 
        });
+
+
+
+       //print order
+
+       $(document).on('click','.print-btn',function(){
+
+            //  alert('print');
+
+            $('#print-area').printThis();
+
+       });
+
+
+
 });

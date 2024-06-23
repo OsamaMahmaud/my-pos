@@ -88,7 +88,7 @@
 
                         <lable>@lang('site.purchase_price')</lable>
 
-                        <input type="text" name='purchase_price' class="form-control" value="{{ $product->purchase_price }}" >
+                        <input type="number" step="0.01" name='purchase_price' class="form-control" value="{{ $product->purchase_price }}" >
 
                       </div>
 
@@ -97,7 +97,7 @@
 
                         <lable>@lang('site.sale_price')</lable>
 
-                        <input type="text" name='sale_price' class="form-control" value="{{ $product->sale_price }}" >
+                        <input type="number" step="0.01" name='sale_price' class="form-control" value="{{ $product->sale_price }}" >
 
                       </div>
 

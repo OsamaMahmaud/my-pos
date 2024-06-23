@@ -42,7 +42,14 @@ class Products extends Model implements TranslatableContract
      }
 
 
-     
+      public function orders()
+      {
+
+         return $this->belongsToMany(Order::class ,'product_order');
+      }
+
+
+
 
 
 

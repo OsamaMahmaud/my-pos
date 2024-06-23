@@ -7,6 +7,7 @@ use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\ProductsController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\Client\OrderController;
+use App\Http\Controllers\Dashboard\OrdersController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 
@@ -16,7 +17,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
 
     Route::middleware('auth')->prefix('dashdoard')->name('dashboard.')->group(function () {
 
-        Route::get('/check', [DashboardController::class, 'index'])->name('index');
+        Route::get('check/', [DashboardController::class, 'index'])->name('index');
 
          //userRoutes
         Route::resource('users',UserController::class)->except('show');
@@ -32,6 +33,12 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         //ProductsRoutes
         Route::resource('clients',ClientController::class)->except('show');
         Route::resource('clients.orders',OrderController::class)->except('show');
+
+        //orders routes
+        Route::resource('orders',OrdersController::class)->except('show');
+
+        Route::get('/orders/{order}/products',[OrdersController::class,'products'])->name('orders.products');
+
 
     });
 

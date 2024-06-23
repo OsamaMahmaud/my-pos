@@ -62,7 +62,7 @@ return [
     'products' => 'المنتجات',
     'product' => 'المنتج',
     'quantity' => 'الكميه',
-    'total' => 'المجموع',
+    'total' => 'الاجمالي',
     'purchase_price' => 'سعر الشراء',
     'price' => 'السعر',
     'sale_price' => 'سعر البيع',

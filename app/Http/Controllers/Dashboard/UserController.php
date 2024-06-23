@@ -39,8 +39,14 @@ class UserController extends Controller
 
         // $users = User::all();
         // $users = User::whereRoleIs(['admin', 'regular-user'])->get();
-        $users = User::when($request->search,function($q)use($request){
-            $q->where('first_name','like','%'.$request->search.'%')->orWhere('last_name','like','%'.$request->search.'%'); })->latest()->Paginate(5);
+        $users = User::whereHasRole('admin')->where(function ($q) use ($request) {
+
+            return $q->when($request->search,function($query)use($request){
+
+                return $query->where('first_name','like','%'.$request->search.'%')
+
+                ->orWhere('last_name','like','%'.$request->search.'%'); });
+            })->latest()->Paginate(5);
 
         return view('dashboard.users.index',compact('users'));
     }//end of index
